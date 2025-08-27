@@ -1,6 +1,5 @@
 version: '2'
 services:
-
   web:
     volumes:
       - ./_docker/vhost.dev.conf:/etc/nginx/conf.d/default.conf
@@ -15,10 +14,10 @@ services:
     volumes_from:
       - laravel-api
     environment:
-      - "PHP_OPCACHE_VALIDATE_TIMESTAMPS=1"
-      - "DB_PORT=3306"
-      - "DB_HOST=mariadb"
-      - "host=localhost"
+      - 'PHP_OPCACHE_VALIDATE_TIMESTAMPS=1'
+      - 'DB_PORT=3306'
+      - 'DB_HOST=mariadb'
+      - 'host=localhost'
       - DISABLE_LOGGING=${DISABLE_LOGGING}
 
   phpmyadmin:
