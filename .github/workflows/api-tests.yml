@@ -22,48 +22,28 @@ jobs:
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
-
-      - name: Create .env file for API
+      - name: Create Laravel .env file
+        env:
+          APP_KEY: ${{ secrets.APP_KEY }}
+          DB_DATABASE: ${{ secrets.DB_DATABASE }}
+          DB_USERNAME: ${{ secrets.DB_USERNAME }}
+          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+          JWT_SECRET: ${{ secrets.JWT_SECRET }}
         run: |
-          cd sprint5-with-bugs/API
-          cp .env_template .env
-          sed -i 's/APP_ENV=production/APP_ENV=local/' .env
-          sed -i 's/APP_DEBUG=false/APP_DEBUG=true/' .env
-          sed -i 's/DB_HOST=127.0.0.1/DB_HOST=mariadb/' .env
-          sed -i 's/${SECRET_DB}_with_bugs/toolshop/' .env
-          sed -i 's/${SECRET_DB_USER}/user/' .env  
-          sed -i 's/${SECRET_DB_PASS}/root/' .env
+          envsubst < sprint5-with-bugs/API/.env.ci > sprint5-with-bugs/API/.env
 
-      - name: Install composer dependencies
+      - name: Start Docker Containers
+        run: docker compose up -d
+
+      - name: Wait for Services
+        run: sleep 60
+
+      - name: Setup Application
         run: |
-          export SPRINT=sprint5-with-bugs
-          export DISABLE_LOGGING=true
           docker compose run --rm composer
-
-      - name: Build and start all services
-        run: |
-          export SPRINT=sprint5-with-bugs
-          export DISABLE_LOGGING=true
-          docker compose up -d
-
-      - name: Fix permissions
-        run: |
-          export SPRINT=sprint5-with-bugs
-          export DISABLE_LOGGING=true
-          docker compose exec -T laravel-api chmod -R 777 storage
-          docker compose exec -T laravel-api chown -R www-data:www-data storage
-
-      - name: Wait for services to be ready
-        run: |
-          # Wait for MariaDB to be ready
-          echo "Waiting for MariaDB to be ready..."
-          timeout 60 bash -c 'until docker compose exec -T mariadb mysqladmin ping -h localhost --silent; do sleep 2; done'
-
-      - name: Initialize database
-        run: |
-          export SPRINT=sprint5-with-bugs
-          export DISABLE_LOGGING=true
-          ./init-data.sh
+          docker compose exec -T -u root laravel-api \
+            chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache
+          docker compose exec -T laravel-api php artisan migrate:fresh --seed --force
 
       - name: Run Login tests with Newman
         working-directory: sprint5-with-bugs/tests

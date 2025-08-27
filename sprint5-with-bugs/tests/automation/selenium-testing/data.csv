@@ -1,0 +1,5 @@
+First_Name,Last_Name,YYYY-MM-DD,123 Main St,P0ST C0D3,City Name,State,5555555555,username@email.com,P@$$w0rd123
+John,Doe,1990-05-15,456 Oak Ave,A1B 2C3,Anytown,CA,1234567890,john.doe@example.com,SecureP@ss!
+Jane,Smith,1985-11-23,789 Pine Ln,Z9Y 8X7,Sampleville,NY,9876543210,jane.smith@test.net,P@ssw0rd$afe
+Placeholder,User,2000-01-01,101 Test Blvd,T3ST 123,Fakesburg,FL,5551234567,placeholder@data.com,MyS3cur3Pa$$w0rd
+A. N.,Other,1978-08-08,222 Example Rd,123 456,Mock City,TX,5559876543,other.user@placeholder.org,P@ssw0rd0nly

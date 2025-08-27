@@ -7,3 +7,5 @@ node_modules/
 .scannerwork/
 mutation.html
 stryker.log
+
+test_env/
