@@ -38,7 +38,7 @@ jobs:
         run: |
           export SPRINT=sprint5-with-bugs
           export DISABLE_LOGGING=true
-          docker-compose up -d mariadb laravel-api web
+          docker compose up -d mariadb laravel-api web
 
       - name: Wait for services to be ready
         run: |
@@ -53,7 +53,7 @@ jobs:
       - name: Run database migrations and seeders
         run: |
           export SPRINT=sprint5-with-bugs
-          docker-compose exec -T laravel-api php artisan migrate:fresh --seed || true
+          docker compose exec -T laravel-api php artisan migrate:fresh --seed || true
 
       - name: Run Login tests with Newman
         working-directory: sprint5-with-bugs/tests
@@ -66,11 +66,11 @@ jobs:
         if: failure()
         run: |
           echo "=== API Logs ==="
-          docker-compose logs laravel-api || true
+          docker compose logs laravel-api || true
           echo "=== Database Logs ==="
-          docker-compose logs mariadb || true
+          docker compose logs mariadb || true
 
       - name: Clean up
         if: always()
         run: |
-          docker-compose down -v || true
+          docker compose down -v || true
