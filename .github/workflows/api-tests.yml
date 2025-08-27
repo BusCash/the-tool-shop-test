@@ -44,7 +44,7 @@ jobs:
         run: |
           # Wait for MariaDB to be ready
           echo "Waiting for MariaDB to be ready..."
-          timeout 60 bash -c 'until docker-compose exec -T mariadb mysqladmin ping -h localhost --silent; do sleep 2; done'
+          timeout 60 bash -c 'until docker compose exec -T mariadb mysqladmin ping -h localhost --silent; do sleep 2; done'
 
           # Wait for API to be ready
           echo "Waiting for API to be ready..."
