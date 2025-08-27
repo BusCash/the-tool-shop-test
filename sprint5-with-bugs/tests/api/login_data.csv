@@ -1,6 +1,0 @@
-email,password,expectedStatus,maxResponseTime
-admin@practicesoftwaretesting.com,welcome01,200,1000
-invalid@example.com,welcome01,401,1000
-,welcome01,401,1000
-customer@practicesoftwaretesting.com,,401,1000
-customer@practicesoftwaretesting.com,wrong01,401,1000

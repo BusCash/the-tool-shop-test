@@ -58,22 +58,8 @@ jobs:
       - name: Run Login tests with Newman
         working-directory: sprint5-with-bugs/tests
         run: |
-          newman run login_testing.postman_collection.json \
-            --iteration-data login_data.csv \
-            --reporters cli
-
-      - name: Run Register tests with Newman
-        working-directory: sprint5-with-bugs/tests
-        run: |
-          newman run register_testing.postman_collection.json \
-            --iteration-data register_data.csv \
-            --reporters cli
-
-      - name: Run Forgot Password tests with Newman
-        working-directory: sprint5-with-bugs/tests
-        run: |
-          newman run forgot_password_testing.postman_collection.json \
-            --iteration-data forgot_password_data.csv \
+          newman run Authentication.postman_collection.json \
+            --iteration-data data.csv \
             --reporters cli
 
       - name: Show API logs on failure
