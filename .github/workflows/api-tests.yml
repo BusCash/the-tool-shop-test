@@ -48,8 +48,8 @@ jobs:
       - name: Run tests with Newman
         working-directory: sprint5-with-bugs/tests
         run: |
-          newman run sprint5-with-bugs/tests/api/Authentication.postman_collection.json \
-            --iteration-data sprint5-with-bugs/tests/api/data.csv \
+          newman run api/Authentication.postman_collection.json \
+            --iteration-data api/data.csv \
             --reporters cli
 
       - name: Show API logs on failure
