@@ -1,0 +1,71 @@
+{
+  "info": {
+    "_postman_id": "b87ec927-c628-4f1e-97c4-0cbb9445825c",
+    "name": "Register Testing",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "37129851"
+  },
+  "item": [
+    {
+      "name": "/users/register",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is \" + pm.iterationData.get(\"expectedStatus\"), () => {",
+              "    pm.expect(pm.response.code).to.eql(pm.iterationData.get(\"expectedStatus\"));",
+              "});",
+              "",
+              "pm.test(\"Response time < \" + pm.iterationData.get(\"maxResponseTime\") + \"ms\", () => {",
+              "    pm.expect(pm.response.responseTime).to.be.below(Number(pm.iterationData.get(\"maxResponseTime\") || 500));",
+              "});",
+              "",
+              "pm.test(\"Content-Type is application/json\", () => {",
+              "    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");",
+              "});",
+              "",
+              "const res = pm.response.json();",
+              "if (pm.response.code === 201) {",
+              "    pm.test(\"User created successfully\", () => {",
+              "        pm.expect(res).to.have.property(\"id\");",
+              "        pm.expect(res.id).to.be.a(\"number\").and.to.be.above(0);",
+              "        pm.expect(res).to.have.property(\"email\");",
+              "        pm.expect(res.email).to.be.a(\"string\").and.not.empty;",
+              "    });",
+              "} else {",
+              "    pm.test(\"Should contain error message\", () => {",
+              "        pm.expect(res).to.have.property(\"message\");",
+              "        pm.expect(res.message).to.be.a(\"string\").and.not.empty;",
+              "    });",
+              "}"
+            ],
+            "type": "text/javascript",
+            "packages": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"first_name\": \"{{first_name}}\",\n    \"last_name\": \"{{last_name}}\",\n    \"address\": \"{{address}}\",\n    \"city\": \"{{city}}\",\n    \"state\": \"{{state}}\",\n    \"country\": \"{{country}}\",\n    \"postcode\": \"{{postcode}}\",\n    \"phone\": \"{{phone}}\",\n    \"dob\": \"{{dob}}\",\n    \"email\": \"{{email}}\",\n    \"password\": \"{{password}}\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:8091/users/register",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8091",
+          "path": ["users", "register"]
+        }
+      },
+      "response": []
+    }
+  ]
+}

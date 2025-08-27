@@ -1,0 +1,7 @@
+first_name,last_name,address,city,state,country,postcode,phone,dob,email,password,expectedStatus,maxResponseTime
+John,Doe,123 Main St,Springfield,IL,US,62701,555-1234,1990-01-01,john.doe@example.com,password123,201,1000
+,Doe,123 Main St,Springfield,IL,US,62701,555-1234,1990-01-01,john.doe2@example.com,password123,422,1000
+John,,123 Main St,Springfield,IL,US,62701,555-1234,1990-01-01,john.doe3@example.com,password123,422,1000
+John,Doe,123 Main St,Springfield,IL,US,62701,555-1234,1990-01-01,,password123,422,1000
+John,Doe,123 Main St,Springfield,IL,US,62701,555-1234,1990-01-01,invalid-email,password123,422,1000
+John,Doe,123 Main St,Springfield,IL,US,62701,555-1234,1990-01-01,john.doe4@example.com,,422,1000

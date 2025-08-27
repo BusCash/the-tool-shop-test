@@ -1,0 +1,6 @@
+selenium
+pytest
+Faker
+webdriver-manager
+pytest-xdist
+pytest-html
