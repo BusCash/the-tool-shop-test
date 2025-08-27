@@ -43,8 +43,6 @@ jobs:
 
       - name: Initialize database
         run: |
-          export SPRINT=sprint5-with-bugs
-          export DISABLE_LOGGING=true
           ./init-data.sh
 
       - name: Run Login tests with Newman
