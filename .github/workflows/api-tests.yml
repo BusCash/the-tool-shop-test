@@ -23,6 +23,17 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
+      - name: Create .env file for API
+        run: |
+          cd sprint5-with-bugs/API
+          cp .env_template .env
+          sed -i 's/APP_ENV=production/APP_ENV=local/' .env
+          sed -i 's/APP_DEBUG=false/APP_DEBUG=true/' .env
+          sed -i 's/DB_HOST=127.0.0.1/DB_HOST=mariadb/' .env
+          sed -i 's/${SECRET_DB}_with_bugs/toolshop/' .env
+          sed -i 's/${SECRET_DB_USER}/user/' .env  
+          sed -i 's/${SECRET_DB_PASS}/root/' .env
+
       - name: Install composer dependencies
         run: |
           export SPRINT=sprint5-with-bugs
@@ -35,6 +46,13 @@ jobs:
           export DISABLE_LOGGING=true
           docker compose up -d
 
+      - name: Fix permissions
+        run: |
+          export SPRINT=sprint5-with-bugs
+          export DISABLE_LOGGING=true
+          docker compose exec -T laravel-api chmod -R 777 storage
+          docker compose exec -T laravel-api chown -R www-data:www-data storage
+
       - name: Wait for services to be ready
         run: |
           # Wait for MariaDB to be ready
@@ -43,6 +61,8 @@ jobs:
 
       - name: Initialize database
         run: |
+          export SPRINT=sprint5-with-bugs
+          export DISABLE_LOGGING=true
           ./init-data.sh
 
       - name: Run Login tests with Newman
