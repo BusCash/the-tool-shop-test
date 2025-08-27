@@ -45,11 +45,11 @@ jobs:
             chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache
           docker compose exec -T laravel-api php artisan migrate:fresh --seed --force
 
-      - name: Run Login tests with Newman
+      - name: Run tests with Newman
         working-directory: sprint5-with-bugs/tests
         run: |
-          newman run Authentication.postman_collection.json \
-            --iteration-data data.csv \
+          newman run sprint5-with-bugs/tests/api/Authentication.postman_collection.json \
+            --iteration-data sprint5-with-bugs/tests/api/data.csv \
             --reporters cli
 
       - name: Show API logs on failure
